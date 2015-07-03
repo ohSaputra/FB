@@ -66,7 +66,7 @@
 				Your Selected Time:<br/>
 				<strong>{{data.datetime | date : 'yyyy-MM-dd HH:mm:ss'}}</strong>
 			</div>
-			<datetimepicker data-ng-model="data.datetime" min-date="minDate" show-weeks="true" data-datetimepicker-config="{ minuteStep: 30 }"></datetimepicker>
+			<datetimepicker data-ng-model="data.datetime" min-date="minDate" show-weeks="true" data-datetimepicker-config="{ minuteStep: 15 }"></datetimepicker>
 			<div class="button-bar padding" style="margin-top:20px">
 				<button style="color:#3d3d3d;border-color: #3d3d3d;background-color:yellow;font-size:12px;font-weight:bold;padding:0 20px 0 20px;"ng-click="closeModal(1)" class="button button-calm">Cancel</button>
 				<button style="color:#3d3d3d;border-color: #3d3d3d;background-color:yellow;font-size:12px;font-weight:bold;padding:0 20px 0 20px;"ng-click="saveModal(1)" class="button button-balanced">Checkout</button>

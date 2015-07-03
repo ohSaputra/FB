@@ -807,9 +807,11 @@ app.controller('cartCtrl',function($scope,$http,$stateParams,$ionicModal,$ionicL
 
   var urlz = url + "/getFees.php?outlet_id="+$scope.outlet_id+"&brand_id="+$scope.brand_id+"&callback=JSON_CALLBACK";
 	$http.jsonp(urlz).success(function(data){
+      console.log(data);
   		$scope.tax_service_charge = data.charge.tax_service_charge;
   		$scope.delivery_fee = data.charge.delivery_fee;
   		$scope.min_transaction = data.charge.min_transaction;
+      console.log($scope.delivery_fee);
       if($scope.serviceType == 1) {
         $scope.delivery_fee = 0;
     		$scope.min_transaction = 0;
@@ -981,19 +983,28 @@ app.controller('checkoutCtrl',function($scope,$http,$stateParams,$ionicPopup,$io
       $scope.deliveryType = Search.getDeliveryType();
     }
   }
+  $scope.addressInput.address_name    = 0;
+  $scope.addressInput.address_content = 0;
+  $scope.addressInput.patokan         = 0;
+
   $scope.checkQuestions = function() {
-    if ($scope.addressInput.address_name.length > 1) {
-      if($scope.addressInput.address_content.length > 1) {
-        if ($scope.addressInput.patokan.length > 1) {
-          $scope.check = false;
+
+    if($scope.serviceType==2 && $scope.deliveryAddress==0){
+      if ($scope.addressInput.address_name.length > 1) {
+        if($scope.addressInput.address_content.length > 1) {
+          if ($scope.addressInput.patokan.length > 1) {
+            $scope.check = false;
+          }
         }
       }
-    }
-    else {
-      $scope.check = true;
-    }
+      else {
+        $scope.check = true;
+      }
 
-    return $scope.check;
+      return $scope.check;
+    } else {
+      return true;
+    }
   };
 
 	$scope.saveAddress = function(address) {
@@ -1025,16 +1036,17 @@ app.controller('checkoutCtrl',function($scope,$http,$stateParams,$ionicPopup,$io
 		test.outlet_id = $scope.outlet_id;
 		test.brand_id = $scope.brand_id;
 		test.tax_service_charge = $scope.tax_service_charge;
-		test.delivery_fee = $scope.delivery_fee;
+		test.delivery_fee = Cart.getDeliveryFee();
 		test.deliveryInstruction = $scope.deliveryInstruction.data;
 		test.payment_method = "cash";
 		test.subtotal = Cart.getTotalPrice();
 		test.order_type = Cart.getDeliveryType();
 		test.order_datetime = Cart.getDeliveryTime();
-    test.service_type = Search.getServiceType();
+    test.service_type = Search.getType();
     if(test.service_type  == 2)
       test.address_id = Search.getDeliveryAddress();
 
+    console.log(test);
 		$http({
 		    url: url + "/placeOrder.php",
 		    method: "POST",
