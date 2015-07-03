@@ -645,9 +645,9 @@ app.controller('orderCtrl',function($scope,$stateParams,$ionicModal,$http,Cart,$
 	    var price_ea = $scope.menu.menu_price;
 	    if(typeof $scope.menu.size_id != "undefined") {
 			   price_ea = $scope.menu.size_id.size_price;
-         if($scope.menu.size_id.detailed == 1) {
-            price_ea = $scope.menu.size_attribute_id.price;
-          }
+        if($scope.menu.size_id.detailed == 1) {
+          price_ea += $scope.menu.size_attribute_id.price;
+        }
       }
 	    var price_attr = 0;
 	    angular.forEach($scope.menu.attr,function(value,key){
