@@ -570,9 +570,9 @@ app.controller('orderCtrl',function($scope,$stateParams,$ionicModal,$http,Cart,$
 			urlLogin = url + "/outletMenu.php?category_id="+a+"&callback=JSON_CALLBACK";
 			$http.jsonp(urlLogin).success(function(data){
 				$scope.show();
-				$scope.menuz[a] =data.menu;
-				arrayLoaded.push(a);
-				$scope.menus = $scope.menuz[a];
+        $scope.menuz[a] = data.menu;
+        arrayLoaded.push(a);
+        $scope.menus    = $scope.menuz[a];
 				$scope.hide();
 			});
 		} else {
@@ -581,21 +581,46 @@ app.controller('orderCtrl',function($scope,$stateParams,$ionicModal,$http,Cart,$
 	}
 
 	$scope.openModal = function (data){
-		$scope.menu_id = data;
-    $scope.size_attribute = 0;
+    $scope.menu_id              = data;
+    $scope.size_attribute       = 0;
     $scope.size_attribute_index = 0;
-		$scope.menu = {};
-		var urlLogin = url + "/menuInformation.php?menu_id="+$scope.menu_id+"&callback=JSON_CALLBACK";
+    $scope.menu                 = {};
+    $scope.detail               = [];
+    var frieses                 = 0;
+    var drinkss                 = 0;
+    $scope.detail.fries         = [];
+    $scope.detail.drinks        = [];
+    $scope.size_attribute_id    = {};
+    $scope.check                = [];
+    $scope.check.fries          = 0;
+    $scope.check.drinks         = 0;
+    var urlLogin                = url + "/menuInformation.php?menu_id="+$scope.menu_id+"&callback=JSON_CALLBACK";
+
 		$http.jsonp(urlLogin).success(function(data){
-			$scope.menu = data.menu;
-			$scope.menu.qty = 1;
+      $scope.menu     = data.menu;
+      $scope.menu.qty = 1;
 			if(data.menu.size.length>0) {
 				$scope.menu.size_id = $scope.menu.size[0];
         for(var i = 0;i < data.menu.size.length;i++) {
-          if(data.menu.size[i].detailed == 1) {
-            $scope.size_attribute = data.menu.size[i].size_id;
+          if(data.menu.size[i].detailed > 0) {
+            $scope.size_attribute         = data.menu.size[i].size_id;
             $scope.menu.size_attribute_id = data.menu.size[i].size_attr[0];
-            $scope.size_attribute_index = i;
+            $scope.size_attribute_index   = i;
+            console.log(data.menu);
+            for(var c = 0;c < data.menu.size[i].size_attr.length;c++){
+              if(data.menu.size[i].size_attr[c].type == "fries"){
+                $scope.check.fries           = 1;
+                $scope.detail.fries[frieses] = data.menu.size[i].size_attr[c];
+                frieses++;
+              } else if (data.menu.size[i].size_attr[c].type == "drinks")  {
+                $scope.check.drinks            = 1;
+                $scope.detail.drinks[drinkss] = data.menu.size[i].size_attr[c];
+                drinkss++;
+              }
+            }
+            $scope.menu.fries = $scope.detail.fries[0];
+            $scope.menu.drinks = $scope.detail.drinks[0];
+            console.log($scope.detail);
           }
         }
 			}
@@ -645,8 +670,11 @@ app.controller('orderCtrl',function($scope,$stateParams,$ionicModal,$http,Cart,$
 	    var price_ea = $scope.menu.menu_price;
 	    if(typeof $scope.menu.size_id != "undefined") {
 			   price_ea = $scope.menu.size_id.size_price;
-        if($scope.menu.size_id.detailed == 1) {
-          price_ea += $scope.menu.size_attribute_id.price;
+        if($scope.menu.size_id.detailed > 0) {
+          if($scope.menu.fries)
+            price_ea += $scope.menu.fries.price;
+          if($scope.menu.drinks)
+            price_ea += $scope.menu.drinks.price;
         }
       }
 	    var price_attr = 0;

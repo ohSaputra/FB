@@ -31,9 +31,15 @@
                     <select ng-model="menu.size_id" name="size_id" class="size_input" required ng-options="sz.size_name for sz in menu.size">{{sz.size_name}}</select>
                 </label>
 
-                <label class="item  item-select select_size" ng-show="size_attribute == menu.size_id.size_id">
-                    <select ng-model="menu.size_attribute_id" name="size_attribute_id" class="size_input" required ng-options="sz.size_attribute_name for sz in menu.size[size_attribute_index].size_attr"></select>
+                <label class="item  item-select select_size" ng-show="size_attribute == menu.size_id.size_id && check.fries == 1">
+                    <select ng-model="menu.fries" name="menu.fries" class="size_input" required ng-options="item.size_attribute_name for item in detail.fries"></select>
                 </label>
+
+                <label class="item  item-select select_size" ng-show="size_attribute == menu.size_id.size_id && check.drinks == 1">
+                    <select ng-model="menu.drinks" name="menu.drinks" class="size_input" required ng-options="item.size_attribute_name for item in detail.drinks"></select>
+                </label>
+
+
             </div>
             <hr ng-show="menu.size.length>0" style="margin:-20px 10px 0;">
 

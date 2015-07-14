@@ -664,6 +664,9 @@ legend {
   text-decoration:none;
   color:black;
 }
+.span_acc {
+    font-size: 12px;
+}
 
 #resume_banner_btn {
   background:url('../img/fatlogo_resume.png');
