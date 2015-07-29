@@ -18,11 +18,13 @@
 </ion-nav-bar>
 
 <ion-content style="background-color:#eee;background-image: url(img/left_panel_bg.jpg) !important; background-repeat: repeat-y !important;">
-
-<div class="list padding">
-	<div class="item item_bb"><span class="span_acc">Name</span> <br> {{customer.customer_name}}</div>
-	<div class="item item_bb"><span class="span_acc">Phone</span> <br>{{customer.phone}}</div>
-	<div class="item item_bb"><span class="span_acc">Mobile</span> <br>{{customer.mobile}}</div>
+<div class="list padding" style="clear:both">
+	<div class="item item_bb"><span class="span_acc">Name :</span> <br> <input ng-model="edit.customer_name" type="text" placeholder="Your Name"></div>
+	<div class="item item_bb"><span class="span_acc">Phone :</span> <br> <input ng-model="edit.phone" type="text" placeholder="Your Phone Number"></div>
+	<div class="item item_bb"><span class="span_acc">Mobile :</span> <br> <input ng-model="edit.mobile" type="text" placeholder="Your Mobile Number"></div>
+	<button class="button button-assertive" ng-click="editAcc()" style="width:100%;margin-top:15px;color:#3d3d3d;border-color: yellow;background-color:yellow;font-size:12px;font-weight:bold;padding:0 20px 0 20px;">
+		Save
+	</button>
 </div>
 
 </ion-content>

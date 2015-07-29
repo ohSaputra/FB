@@ -175,6 +175,9 @@ angular.module('customer',[]).factory('Customer',function($rootScope,$http){
 			localStorage.setItem("customer_address",JSON.stringify(address));
 			$rootScope.$broadcast('state.login');
 		},
+		editAccount: function(customer){
+			localStorage.setItem("customer",JSON.stringify(customer));
+		},
 		getCustomerID : function(){
 			customer = JSON.parse(localStorage.getItem("customer"));
 			return customer.customer_id;

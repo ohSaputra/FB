@@ -236,6 +236,22 @@ app.controller('historyCtrl',function($scope,$http,$state,$stateParams,$ionicSid
 
 app.controller('accountCtrl',function($scope,$http,Customer,$state){
 	$scope.customer = Customer.getCustomer();
+  $scope.edit = Customer.getCustomer();
+
+  $scope.editAcc = function () {
+    $http.defaults.useXDomain = true;
+    $http({
+        url: url + "/saveAccount.php",
+        method: "POST",
+        headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8'},
+        data: $scope.edit
+    }).then(function(response) {
+        if(response.data == 1) {
+          Customer.editAccount($scope.edit);
+          $state.go($state.current, {}, {reload: true});
+        }
+    });
+  };
 });
 
 app.controller('loginCtrl',function($scope,$http,Customer,Search,$state){
@@ -670,11 +686,14 @@ app.controller('orderCtrl',function($scope,$stateParams,$ionicModal,$http,Cart,$
 	    var price_ea = $scope.menu.menu_price;
 	    if(typeof $scope.menu.size_id != "undefined") {
 			   price_ea = $scope.menu.size_id.size_price;
+         console.log('Detailed : '+$scope.menu.size_id.detailed);
         if($scope.menu.size_id.detailed > 0) {
           if($scope.menu.fries)
             price_ea += $scope.menu.fries.price;
-          if($scope.menu.drinks)
+          if($scope.menu.drinks){
             price_ea += $scope.menu.drinks.price;
+            console.log('Drink : '+$scope.menu.drinks.price)
+          }
         }
       }
 	    var price_attr = 0;
