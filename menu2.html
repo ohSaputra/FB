@@ -11,61 +11,12 @@
             <div class="padding"><img class="full-image" ng-src="http://128.199.190.218/images/fatburger/menu{{menu.menu_image}}" style="width:100%;height:auto"/></div>
             <div class="list">
                 <h3 class="padding font-white" style="text-align:left !important;margin-top:-10px;">{{menu.menu_name}}</h3>
-              <div class="padding font-white" style="margin-top:-20px;">{{ menu.menu_description}}</div>
-                <hr style="margin:0 10px 0 10px;">
-                <div class="item item-input padding" style="width:100%;background-color:transparent;border:0">
-                    <span class="input-label font-white">Quantity : </span>
-                    <input type="text" size=5 name="input" ng-model="menu.qty" placeholder="Qty" ng-init="menu.qty=1" style="background-color:white !important; margin:0 10px 0 0 !important;text-align: center;padding-right: 0px !important;"/>
-                    <span class="input-label font-white">item(s)</span>
-                    <button class="button-clear" style="height: 30px; width: 47px;" ng-click="menu.qty = menu.qty+1">
-                        <img src="img/plus_button.png" style="height:30px !important;">
-                    </button>
-                    <button class="button-clear" style="height: 30px; width: 47px;" ng-click="menu.qty = menu.qty-1">
-                        <img src="img/minus_button.png" style="height:30px !important;">
-                    </button>
-                </div>
+                <div class="padding font-white" style="margin-top:-20px;">{{ menu.menu_description}}</div>
             </div>
             <hr style="margin:-20px 10px 0 10px;">
-            <div ng-if="menu.size.length>0" class="list padding">
-                <label class="item  item-select select_size">
-                    <select ng-model="menu.size_id" name="size_id" class="size_input" required ng-options="sz.size_name for sz in menu.size">{{sz.size_name}}</select>
-                </label>
-
-                <label class="item  item-select select_size" ng-show="size_attribute == menu.size_id.size_id && check.fries == 1">
-                    <select ng-model="menu.fries" name="menu.fries" class="size_input" required ng-options="item.size_attribute_name for item in detail.fries"></select>
-                </label>
-
-                <label class="item  item-select select_size" ng-show="size_attribute == menu.size_id.size_id && check.drinks == 1">
-                    <select ng-model="menu.drinks" name="menu.drinks" class="size_input" required ng-options="item.size_attribute_name for item in detail.drinks"></select>
-                </label>
-
-
-            </div>
-            <hr ng-show="menu.size.length>0" style="margin:-20px 10px 0;">
-
-            <div ng-if="menu.attr.length>0" class="list" style="background-color:transparent">
-                <label class="item item-input font-white" style="background-color:transparent;border:0"> Add Ons</label>
-                <ion-checkbox style="background-color:transparent;border:0;display:block" ng-repeat="att in menu.attr" name="attr_id" id="checkbox_{{$index}}" ng-model="att.selected" value="{{att.attribute_id}}" type="checkbox" class="checkbox-energized"/>
-                    <span style="font-size:14px;display:block" class="font-white">{{att.attribute_name}} {{att.attribute_price | currency : 'Rp ' : 0}}</span>
-                </ion-checkbox>
-            </div>
-          <hr ng-show="menu.attr.length>0" style="margin:-20px 10px 0 10px;">
-
-            <div class="list" style="width:100%;background-color:transparent;border:none">
-                <label class="item item-input font-white" style="background-color:transparent;border:0  ">
-                    Special Instructions
-                </label>
-                <label class="item item-input padding" style="background-color:transparent;border:0">
-                   <textarea ng-model="menu.instructions" placeholder="Special Instructions" style="padding: 10px 10px 10px 10px;"></textarea>
-                </label>
-            </div>
-            <hr style="margin:-20px 10px 0 10px;">
-            <div class="padding font-white" style="font-size:14px">
-              Total Price : <span style="font-size:16px;font-weight:bold">{{total | currency : 'Rp ' : 0}}</span>
-            <div>
             <div class="button-bar padding">
-                <button class="button button-assertive" style="color:#3d3d3d;border-color: yellow;background-color:yellow;font-size:12px;font-weight:bold;padding:0 20px 0 20px;" ng-click="addToCart(menu)">
-                    Add To Order
+                <button class="button button-assertive" style="color:#3d3d3d;border-color: yellow;background-color:yellow;font-size:12px;font-weight:bold;padding:0 20px 0 20px;" ng-click="startOrder()">
+                    Start your Order now
                 </button>
             </div>
          </ion-content>

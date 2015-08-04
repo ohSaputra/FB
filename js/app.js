@@ -1375,7 +1375,9 @@ app.controller('menuCtrl2',function($scope,$stateParams,$ionicModal,$http,$ionic
 			$scope.menus = $scope.menuz[a];
 		}
 	}
-
+  $scope.startOrder = function() {
+    $location.path('/');
+  }
 	$scope.openModal = function (data){
 		$scope.menu_id              = data;
     $scope.size_attribute       = 0;
