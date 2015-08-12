@@ -1,4 +1,4 @@
-var url = "http://128.199.67.183:8080/fb";
+var url = "http://128.199.190.218/fb";
 var company_id = 2;
 var app = angular.module('indexApp', [
   "sdfilters",
@@ -515,10 +515,11 @@ app.controller('homeCtrl',function($scope,$location,$ionicActionSheet,$ionicSide
 });
 
 app.controller('restoCtrl',function($scope,$http,Search,Customer){
-	$scope.logged_in = Customer.isLogged();
+  $scope.logged_in   = Customer.isLogged();
   $scope.serviceType = Search.getType();
-  $scope.outlet_id = Search.getOutlet();
-  $scope.details = Search.getOutletDetails()
+  $scope.outlet_id   = Search.getOutlet();
+  $scope.details     = Search.getOutletDetails()
+  $scope.hour        = 0;
 	$scope.$on('state.update', function () {
     	$scope.logged_in = false;
   });
@@ -527,9 +528,12 @@ app.controller('restoCtrl',function($scope,$http,Search,Customer){
   });
   console.log($scope.outlet_id);
   $scope.brand_id = 0;
-	var urlLogin = url + "/outletInfo.php?outlet_id="+$scope.outlet_id+"&callback=JSON_CALLBACK";
+  var day = new Date();
+  var now = day.getDay() - 1;
+  var urlLogin = url + "/outletInfo.php?outlet_id="+$scope.outlet_id+"&callback=JSON_CALLBACK";
 	$http.jsonp(urlLogin).success(function(data) {
 		$scope.outletInfo = data.outlet;
+    $scope.hour = data.outlet.hours[now].hours_start.substring(0,5) + " - " +data.outlet.hours[now].hours_end.substring(0,5);
     $scope.brand_id = $scope.outletInfo.brand_id;
 		urlLogin = url + "/outletMenuCategory.php?brand_id="+$scope.outletInfo.brand_id+"&callback=JSON_CALLBACK";
 		$http.jsonp(urlLogin).success(function(data){
@@ -543,13 +547,14 @@ app.controller('restoCtrl',function($scope,$http,Search,Customer){
 	};
 });
 
-app.controller('orderCtrl',function($scope,$stateParams,$ionicModal,$http,Cart,$ionicLoading,$location,Customer){
+app.controller('orderCtrl',function($scope,$stateParams,$ionicModal,$http,Cart,$ionicLoading,$location,Customer,Search){
 	$scope.outlet_id = $stateParams.outlet_id;
 	$scope.brand_id = $stateParams.brand_id;
 	$scope.tab = $stateParams.as;
 	$scope.menuz = [];
 	$scope.menu = {};
 	var arrayLoaded = [];
+  var arrayMenu = [];
 
 	$scope.logged_in = Customer.isLogged();
 	$scope.$on('state.update', function () {
@@ -568,13 +573,26 @@ app.controller('orderCtrl',function($scope,$stateParams,$ionicModal,$http,Cart,$
 	    $ionicLoading.hide();
 	};
 
+  var serviceType = Search.getType();
 	var urlLogin = url + "/outletMenuCategory.php?brand_id="+$scope.brand_id+"&callback=JSON_CALLBACK";
 	$http.jsonp(urlLogin).success(function(data){
 		$scope.menuCategories = data.category;
 		if($scope.tab !== "") {
 			urlLogin = url + "/outletMenu.php?category_id="+$scope.tab+"&callback=JSON_CALLBACK";
 			$http.jsonp(urlLogin).success(function(data){
-				$scope.menuz[$scope.tab] =data.menu;
+        for(var i=0;i < data.menu.length;i++){
+          if(serviceType==1){
+            if(data.menu[i].show_on != "Delivery"){
+              arrayMenu.push(data.menu[i]);
+            }
+          }
+          if(serviceType==2){
+            if(data.menu[i].show_on != "Self Pick Up"){
+              arrayMenu.push(data.menu[i]);
+            }
+          }
+        }
+				$scope.menuz[$scope.tab] =arrayMenu;
 				arrayLoaded.push($scope.tab);
 				$scope.menus = $scope.menuz[$scope.tab];
 			});
