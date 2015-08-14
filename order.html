@@ -35,6 +35,10 @@
                     <select ng-model="menu.fries" name="menu.fries" class="size_input" required ng-options="item.size_attribute_name+' Rp. '+item.price for item in detail.fries"></select>
                 </label>
 
+                <label class="item  item-select select_size" ng-show="size_attribute == menu.size_id.size_id && check.qtys == 1">
+                    <select ng-model="menu.qtys" name="menu.qtys" class="size_input" required ng-options="item.size_attribute_name+' Rp. '+item.price for item in detail.qtys"></select>
+                </label>
+
                 <label class="item  item-select select_size" ng-show="size_attribute == menu.size_id.size_id && check.drinks == 1">
                     <select ng-model="menu.drinks" name="menu.drinks" class="size_input" required ng-options="item.size_attribute_name+' Rp. '+item.price for item in detail.drinks"></select>
                 </label>

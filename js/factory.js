@@ -25,6 +25,7 @@ angular.module('cart',[]).factory('Cart',function(){
 			var items = JSON.parse(localStorage.getItem("cart"));
 			var total = 0;
 			var attr_total = 0;
+			console.log(items);
 			for(var i = 0; i < items.length;i++){
 				if(items[i].size_id == undefined) {
 					total = total + (parseInt(items[i].qty) * parseInt(items[i].menu_price));
