@@ -904,8 +904,8 @@ app.controller('cartCtrl',function($scope,$http,$stateParams,$ionicModal,$ionicL
       // console.log($scope.delivery_fee);
       if($scope.serviceType == 1) {
         $scope.delivery_fee = 0;
-    		$scope.min_transaction = 0;
-        $scope.min_hit = true;
+    		$scope.min_transaction = data.charge.min_transaction_self;
+        // $scope.min_hit = true;
       }
   		Cart.updatePrice($scope.tax_service_charge,$scope.delivery_fee);
   		$scope.grandtotal = ($scope.totalPrice*$scope.tax_service_charge/100) + $scope.totalPrice + $scope.delivery_fee;
@@ -1027,7 +1027,7 @@ app.controller('cartCtrl',function($scope,$http,$stateParams,$ionicModal,$ionicL
   $scope.showAlert = function() {
 	   var alertPopup = $ionicPopup.alert({
 	     title: 'Mininum Order',
-	     template: 'Minimum Order untuk Delivery tidak Tercapai'
+	     template: 'Minimum Delivery Order do not Reached'
 	   });
 	};
 
@@ -1160,7 +1160,7 @@ app.controller('newAddressCtrl',function($scope,$http,$ionicLoading,$ionicModal,
 	$scope.newAddress = [
 		{ index : 1, icon : "ion-android-pin", text : "Get Your Location", checked : false},
 		{ index : 2, icon : "ion-ios-list-outline", text : "Extra Guidance or Instructions", checked : false},
-		{ index : 3, icon : "ion-ios-paper", text : "Address Detail", checked : false}
+		{ index : 3, icon : "ion-ios-paper", text : "Insert Address Detail", checked : false}
 	];
 	$scope.tab = {};
 	$scope.addressInput = { 'address_selection' : 1 };

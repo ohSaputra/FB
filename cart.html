@@ -175,12 +175,16 @@
 </ion-list>
 
 <nav ng-show="serviceType==1">
-	<div class="col" style="font-size:11px;background-color:#3d3d3d;color:white;margin-top:15px;font-size:14px;text-align:center">
+	<div ng-if="min_hit==true" class="col" style="font-size:11px;background-color:#3d3d3d;color:white;margin-top:15px;font-size:14px;text-align:center">
 			Pick Up Location:
 	</div>
-	<ion-radio ng-repeat="area in areaJson.outlet" ng-model="data.selected" ng-value="{{area.id}}">
+	<ion-radio ng-repeat="area in areaJson.outlet" ng-model="data.selected" ng-if="min_hit==true" ng-value="{{area.id}}">
 		{{area.name}}
 	</ion-radio>
+
+    <div class="bar bar-dark padding" ng-hide="min_hit" ng-click="showAlert()" style="text-align:center">
+        <h1 class="title">Minimum Order {{min_transaction | currency : 'Rp ' : 0}}</h1>
+    </div>
 </nav>
 
 <nav ng-show="serviceType==2">
@@ -189,7 +193,7 @@
 	</div>
 </nav>
 
-<div class="padding" style="font-size:11px;background-color:#3d3d3d;color:white;margin-top:25px;font-size:14px;text-align:center">
+<div class="padding" ng-show="min_hit" style="font-size:11px;background-color:#3d3d3d;color:white;margin-top:25px;font-size:14px;text-align:center">
 	Select your time to continue:
 </div>
 

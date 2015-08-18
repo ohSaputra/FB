@@ -72,79 +72,79 @@
 				<div class="list list-inset" ng-switch on="addr.address_type">
 					<label class="item item-input item-select">
 					    <div class="input-label">
-					      Tipe Alamat
+					      Address Type
 					    </div>
 						<select ng-model="addressInput.address_selection">
 							<option value="1">Office</option>
 							<option value="2">Residence</option>
 							<option value="3">Apartment</option>
 							<option value="4">Hotel</option>
-							<option value="5">Ruko/Rukan</option>
-							<option value="6">Kost</option>
+							<option value="5">Shophouse (Ruko)</option>
+							<option value="6">Boarding House</option>
 						</select>
 					</label>
 					<addrType ng-switch on="addressInput.address_selection">
 						<div ng-switch-when="1">
 							<label class="item item-input">
-							    <input type="text" placeholder="Nama Perusahaan" ng-model="addressInput.tower_division" >
+							    <input type="text" placeholder="Company Name" ng-model="addressInput.tower_division" >
 							</label>
 							<label class="item item-input">
-							    <input type="text" placeholder="Nama Gedung" ng-model="addressInput.address_name">
+							    <input type="text" placeholder="Building Name" ng-model="addressInput.address_name">
 							</label>
 							<label class="item item-input">
-							    <input type="text" placeholder="Lantai" ng-model="addressInput.floor">
+							    <input type="text" placeholder="Floor" ng-model="addressInput.floor">
 							</label>
 							<label class="item item-input">
-							    <input type="text" placeholder="Nomor" ng-model="addressInput.room_unit">
+							    <input type="text" placeholder="Number" ng-model="addressInput.room_unit">
 							</label>
 						</div>
 						<div ng-switch-when="2">
 							<label class="item item-input">
-							    <input type="text" placeholder="Name Komplek" ng-model="addressInput.address_name">
+							    <input type="text" placeholder="Complex Name" ng-model="addressInput.address_name">
 							</label>
 						</div>
 						<div ng-switch-when="3">
 							<label class="item item-input">
-							    <input type="text" placeholder="Nama Apartment" ng-model="addressInput.address_name">
+							    <input type="text" placeholder="Apartment Name" ng-model="addressInput.address_name">
 							</label>
 							<label class="item item-input">
 							    <input type="text" placeholder="Tower" ng-model="addressInput.tower_division" >
 							</label>
 							<label class="item item-input">
-							    <input type="text" placeholder="Lantai" ng-model="addressInput.floor">
+							    <input type="text" placeholder="Floor" ng-model="addressInput.floor">
 							</label>
 							<label class="item item-input">
-							    <input type="text" placeholder="Nomor" ng-model="addressInput.room_unit">
+							    <input type="text" placeholder="Number" ng-model="addressInput.room_unit">
 							</label>
 						</div>
 						<div ng-switch-when="4">
 							<label class="item item-input">
-							    <input type="text" placeholder="Nama Hotel" ng-model="addressInput.address_name">
+							    <input type="text" placeholder="Hotel Name" ng-model="addressInput.address_name">
 							</label>
 							<label class="item item-input">
-							    <input type="text" placeholder="Lantai" ng-model="addressInput.floor">
+							    <input type="text" placeholder="Floor" ng-model="addressInput.floor">
 							</label>
 							<label class="item item-input">
-							    <input type="text" placeholder="Nomor" ng-model="addressInput.room_unit">
+							    <input type="text" placeholder="Number" ng-model="addressInput.room_unit">
 							</label>
 						</div>
 						<div ng-switch-when="5">
 							<label class="item item-input">
-							    <input type="text" placeholder="Nama Ruko/Rukan" ng-model="addressInput.address_name">
+						    	<input type="text" placeholder="Shophouse (Ruko) Name" ng-model="addressInput.address_name">
 							</label>
 							<label class="item item-input">
-							    <input type="text" placeholder="Lantai" ng-model="addressInput.floor">
+							    <input type="text" placeholder="Floor" ng-model="addressInput.floor">
 							</label>
 						</div>
 						<div ng-switch-when="6">
 							<label class="item item-input">
-							    <input type="text" placeholder="Nama Kost" ng-model="addressInput.address_name">
+							    <input type="text" placeholder="Boarding House Name" ng-model="addressInput.address_name">
 							</label>
 							<label class="item item-input">
-							    <input type="text" placeholder="Lantai" ng-model="addressInput.floor">
+							    <input type="text" placeholder="Floor" ng-model="addressInput.floor">
 							</label>
 							<label class="item item-input">
-							    <input type="text" placeholder="Kamar" ng-model="addressInput.room_unit">
+							    <input type="text" placeholder="Room" ng-model="addressInput.room_unit">
 							</label>
 						</div>
 					</addrType>
