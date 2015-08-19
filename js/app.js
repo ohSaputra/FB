@@ -526,7 +526,7 @@ app.controller('restoCtrl',function($scope,$http,Search,Customer){
   $scope.$on('state.login', function () {
     	$scope.logged_in = true;
   });
-  console.log($scope.outlet_id);
+  // console.log($scope.outlet_id);
   $scope.brand_id = 0;
   var day = new Date();
   var now = day.getDay() - 1;
@@ -653,7 +653,6 @@ app.controller('orderCtrl',function($scope,$stateParams,$ionicModal,$http,Cart,$
             $scope.size_attribute         = data.menu.size[i].size_id;
             $scope.menu.size_attribute_id = data.menu.size[i].size_attr[0];
             $scope.size_attribute_index   = i;
-            console.log(data.menu);
             if(data.menu.size[i].size_id == 1){
               var wannaDrinks = {
                 "order": 0,
@@ -878,42 +877,37 @@ app.controller('cartCtrl',function($scope,$http,$stateParams,$ionicModal,$ionicL
 	if(totalItems == 0)
 	   $location.path("/order/"+$scope.outlet_id+"/"+$scope.brand_id+"/");
 
-	var totalPrice = 0;
-	angular.forEach($scope.items,function(value,key){
-		var price_ea = parseInt(value.menu_price);
-		if(value.size_id) {
-			price_ea = parseInt(value.size_id.size_price);
-		}
-		totalPrice += parseInt(value.qty) * price_ea;
-		if(value.attr) {
-			angular.forEach(value.attr,function(value1,key1) {
-				totalPrice += parseInt(value1.attribute_price) * parseInt(value.qty);
-			});
-		}
-	});
+	var totalPrice = Cart.getTotalPrice();
+	// angular.forEach($scope.items,function(value,key){
+	// 	var price_ea = parseInt(value.menu_price);
+	// 	if(value.size_id) {
+	// 		price_ea = parseInt(value.size_id.size_price);
+	// 	}
+	// 	totalPrice += parseInt(value.qty) * price_ea;
+	// 	if(value.attr) {
+	// 		angular.forEach(value.attr,function(value1,key1) {
+	// 			totalPrice += parseInt(value1.attribute_price) * parseInt(value.qty);
+	// 		});
+	// 	}
+	// });
 
 	$scope.totalPrice = totalPrice;
 	$scope.totalItems = totalItems;
 
   var urlz = url + "/getFees.php?outlet_id="+$scope.outlet_id+"&brand_id="+$scope.brand_id+"&callback=JSON_CALLBACK";
 	$http.jsonp(urlz).success(function(data){
-      console.log(data);
-  		$scope.tax_service_charge = data.charge.tax_service_charge;
-  		$scope.delivery_fee = data.charge.delivery_fee;
-  		$scope.min_transaction = data.charge.min_transaction;
-      // console.log($scope.delivery_fee);
+      $scope.tax_service_charge = data.charge.tax_service_charge;
+      $scope.delivery_fee       = data.charge.delivery_fee;
+      $scope.min_transaction    = data.charge.min_transaction;
       if($scope.serviceType == 1) {
-        $scope.delivery_fee = 0;
-    		$scope.min_transaction = data.charge.min_transaction_self;
-        // $scope.min_hit = true;
+        $scope.delivery_fee    = 0;
+        $scope.min_transaction = data.charge.min_transaction_self;
       }
   		Cart.updatePrice($scope.tax_service_charge,$scope.delivery_fee);
   		$scope.grandtotal = ($scope.totalPrice*$scope.tax_service_charge/100) + $scope.totalPrice + $scope.delivery_fee;
   		if($scope.totalPrice > $scope.min_transaction)
   			$scope.min_hit = true;
   });
-
-
 
 	$scope.deleteItem = function(index) {
 		Cart.removeItem(index);
@@ -959,11 +953,74 @@ app.controller('cartCtrl',function($scope,$http,$stateParams,$ionicModal,$ionicL
       	$scope.menu_id = $scope.item.menu_id;
       	$scope.indexItem = itemId;
   			$scope.menu = {};
+
+        $scope.check                = [];
+        $scope.detail               = [];
+        $scope.size_attribute_id    = {};
+
+        /**
+         * Variabel Tipe Makanan
+         */
+
+        $scope.detail.fries         = [];
+        $scope.detail.drinks        = [];
+        $scope.detail.qtys          = [];
+
+        $scope.check.fries          = 0;
+        $scope.check.drinks         = 0;
+        $scope.check.qtys           = 0;
+
+
+        /*
+         -----------------------
+         */
+
   			var urlLogin = url + "/menuInformation.php?menu_id="+$scope.menu_id+"&callback=JSON_CALLBACK";
   			$http.jsonp(urlLogin).success(function(data){
-    				$scope.menu = data.menu;
-    				$scope.menu.qty = $scope.item.qty;
-    				$scope.menu.instructions = $scope.item.instructions;
+            $scope.menu     = data.menu;
+            $scope.menu.qty = $scope.item.qty;
+            $scope.menu.instructions = $scope.item.instructions;
+            if(data.menu.size.length>0) {
+              $scope.menu.size_id = $scope.menu.size[0];
+              for(var i = 0;i < data.menu.size.length;i++) {
+                if(data.menu.size[i].detailed > 0) {
+                  $scope.size_attribute         = data.menu.size[i].size_id;
+                  $scope.menu.size_attribute_id = data.menu.size[i].size_attr[0];
+                  $scope.size_attribute_index   = i;
+                  if(data.menu.size[i].size_id == 1){
+                    var wannaDrinks = {
+                      "order": 0,
+                      "price": 0,
+                      "size_attribute_id": null,
+                      "size_attribute_name": "(No Drinks) Wanna have a drink ?",
+                      "type" : "drinks"
+                    }
+                    $scope.detail.drinks.push(wannaDrinks);
+                  }
+                  for(var c = 0;c < data.menu.size[i].size_attr.length;c++){
+                    if(data.menu.size[i].size_attr[c].type == "fries"){
+                      $scope.check.fries = 1;
+                      $scope.detail.fries.push(data.menu.size[i].size_attr[c]);
+                    } else if (data.menu.size[i].size_attr[c].type == "drinks")  {
+                      $scope.check.drinks = 1;
+                      $scope.detail.drinks.push(data.menu.size[i].size_attr[c]);
+                    } else if (data.menu.size[i].size_attr[c].type == "qty")  {
+                      $scope.check.qtys = 1;
+                      $scope.detail.qtys.push(data.menu.size[i].size_attr[c]);
+                    }
+                  }
+                  $scope.menu.qtys   = $scope.detail.qtys[0];
+                  $scope.menu.fries  = $scope.detail.fries[0];
+                  $scope.menu.drinks = $scope.detail.drinks[0];
+                }
+              }
+            }
+
+
+    				// $scope.menu = data.menu;
+    				// $scope.menu.qty = $scope.item.qty;
+    				// $scope.menu.instructions = $scope.item.instructions;
+
     				var idx = 0;
     				angular.forEach($scope.menu.attr,function(value,key){
     					angular.forEach($scope.item.attr,function(value1,key1){
@@ -973,9 +1030,9 @@ app.controller('cartCtrl',function($scope,$http,$stateParams,$ionicModal,$ionicL
     					});
     					idx = idx + 1;
     				});
-    				if(data.menu.size.length>0) {
-    					$scope.menu.size_id = $scope.menu.size[0];
-    				}
+    				// if(data.menu.size.length>0) {
+    				// 	$scope.menu.size_id = $scope.menu.size[0];
+    				// }
   			});
   			$scope.modal2.show();
   	}
@@ -1042,15 +1099,17 @@ app.controller('cartCtrl',function($scope,$http,$stateParams,$ionicModal,$ionicL
 });
 
 app.controller('checkoutCtrl',function($scope,$http,$stateParams,$ionicPopup,$ionicLoading,Cart,Search,$location,Customer) {
-	$scope.outlet_id = $stateParams.outlet_id;
-	$scope.brand_id = $stateParams.brand_id;
-  $scope.serviceType = Search.getType();
-  $scope.order_datetime = moment.unix(Cart.getDeliveryTime()).format('YYYY-MM-DD H:mm:ss');
-  $scope.order_type = Cart.getDeliveryType();
-	$scope.logged_in = Customer.isLogged();
-	$scope.addressInput = {};
-  $scope.check = true;
-	$scope.deliveryInstruction = {};
+  $scope.outlet_id           = $stateParams.outlet_id;
+  $scope.brand_id            = $stateParams.brand_id;
+  $scope.serviceType         = Search.getType();
+  $scope.order_datetime      = moment.unix(Cart.getDeliveryTime()).format('YYYY-MM-DD H:mm:ss');
+  $scope.order_type          = Cart.getDeliveryType();
+  $scope.logged_in           = Customer.isLogged();
+  $scope.addressInput        = {};
+  $scope.check               = true;
+  $scope.deliveryInstruction = {};
+  $scope.delivery_fee        = parseInt(Cart.getDeliveryFee());
+
 	$scope.$on('state.update', function () {
     	$scope.logged_in = false;
     	$location.path('/login-mid/'+$scope.outlet_id+'/'+$scope.brand_id);
@@ -1461,7 +1520,7 @@ app.controller('menuCtrl2',function($scope,$stateParams,$ionicModal,$http,$ionic
             }
             $scope.menu.fries = $scope.detail.fries[0];
             $scope.menu.drinks = $scope.detail.drinks[0];
-            console.log($scope.detail);
+            // console.log($scope.detail);
           }
         }
       }

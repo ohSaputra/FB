@@ -30,17 +30,28 @@
             </div>
 
 						<hr style="margin:0 10px 0 10px;" ng-if="menu.attr.length>0 && menu.size.length>0">
-
-            <div ng-if="menu.size.length>0" class="list">
-                <label class="item  item-select select_size">
+            <div ng-if="menu.size.length>0" class="list padding">
+                <label ng-show="menu.size" class="item  item-select select_size">
                     <select ng-model="menu.size_id" name="size_id" class="size_input" required ng-options="sz.size_name for sz in menu.size"></select>
+                </label>
+
+                <label class="item  item-select select_size" ng-show="size_attribute == menu.size_id.size_id && check.fries == 1">
+                    <select ng-model="menu.fries" name="menu.fries" class="size_input" required ng-options="item.size_attribute_name+' Rp. '+item.price for item in detail.fries"></select>
+                </label>
+
+                <label class="item  item-select select_size" ng-show="size_attribute == menu.size_id.size_id && check.qtys == 1">
+                    <select ng-model="menu.qtys" name="menu.qtys" class="size_input" required ng-options="item.size_attribute_name+' Rp. '+item.price for item in detail.qtys"></select>
+                </label>
+
+                <label class="item  item-select select_size" ng-show="size_attribute == menu.size_id.size_id && check.drinks == 1">
+                    <select ng-model="menu.drinks" name="menu.drinks" class="size_input" required ng-options="item.size_attribute_name+' Rp. '+item.price for item in detail.drinks"></select>
                 </label>
             </div>
 
-            <div ng-if="menu.attr.length>0" class="list">
-                <label class="item item-input font-white"> Available Additions</label>
-                <ion-checkbox ng-repeat="att in menu.attr" name="attr_id" id="checkbox_{{$index}}" ng-model="att.selected" value="{{att.attribute_id}}" type="checkbox" class="energized"/>
-                    <span style="font-size:14px" class="font-white">{{att.attribute_name}} {{att.attribute_price | currency : 'Rp ' : 0}}</span>
+            <div ng-show="menu.attr" class="list" style="background-color:transparent">
+                <label class="item item-input font-white" style="background-color:transparent;border:0"> Add Ons</label>
+                    <ion-checkbox style="background-color:transparent;border:0;display:block" ng-repeat="att in menu.attr" name="attr_id" id="checkbox_{{$index}}" ng-model="att.selected" value="{{att.attribute_id}}" type="checkbox" class="checkbox-energized"/>
+                    <span style="font-size:14px;display:block" class="font-white">{{att.attribute_name}} {{att.attribute_price | currency : 'Rp ' : 0}}</span>
                 </ion-checkbox>
             </div>
 
@@ -125,11 +136,24 @@
 
 		<div class="row" style="margin-left:-21px;width:150%;margin-bottom:-21px">
 			<div class="col" style="font-weight:normal !important; background-color:#E0E0E0;">
-				+ Addition:
-				<div ng-repeat = "att in item.attr" style="font-style:italic;font-size:12px">
-					{{att.attribute_name}} {{ item.qty*att.attribute_price | currency : ''}}
-				</div>
-				+ Instruction: {{item.instructions}}
+				<div ng-show="item.fries">
+                + Fries : {{item.fries.size_attribute_name}} {{item.fries.price | currency :''}}
+                </div>
+                <div ng-show="item.qtys">
+                + Size : {{item.qtys.size_attribute_name}} {{item.qtys.price | currency :''}}
+                </div>
+                <div ng-show="item.drinks">
+                + Drink : {{item.drinks.size_attribute_name}} {{item.drinks.price | currency :''}}
+                </div>
+                <div ng-show="item.attr">
+                + Addition:
+    				<div ng-repeat="att in item.attr" style="font-style:italic;font-size:12px">
+    					{{att.attribute_name}} {{ item.qty*att.attribute_price | currency : ''}}
+    				</div>
+                </div>
+                <div ng-show="item.instructions">
+    				+ Instruction: {{item.instructions}}
+                </div>
 			</div>
 		</div>
 

@@ -22,8 +22,8 @@ angular.module('cart',[]).factory('Cart',function(){
 			return total;
 		},
 		getTotalPrice: function(){
-			var items = JSON.parse(localStorage.getItem("cart"));
-			var total = 0;
+			var items      = JSON.parse(localStorage.getItem("cart"));
+			var total      = 0;
 			var attr_total = 0;
 			console.log(items);
 			for(var i = 0; i < items.length;i++){
@@ -36,6 +36,15 @@ angular.module('cart',[]).factory('Cart',function(){
 					for(var j = 0; j < items[i].attr.length ; j++){
 						attr_total += (parseInt(items[i].qty) * parseInt(items[i].attr[j].attribute_price));
 					}
+				}
+				if(items[i].drinks) {
+					attr_total += (parseInt(items[i].drinks.price));
+				}
+				if(items[i].qtys) {
+					attr_total += (parseInt(items[i].qtys.price));
+				}
+				if(items[i].fries) {
+					attr_total += (parseInt(items[i].fries.price));
 				}
 			}
 			return (total+attr_total);
