@@ -1164,9 +1164,9 @@ app.controller('checkoutCtrl',function($scope,$http,$stateParams,$ionicPopup,$io
       $scope.deliveryType = Search.getDeliveryType();
     }
   }
-  $scope.addressInput.address_name    = 0;
-  $scope.addressInput.address_content = 0;
-  $scope.addressInput.patokan         = 0;
+  $scope.addressInput.address_name    = '';
+  $scope.addressInput.address_content = '';
+  $scope.addressInput.patokan         = '';
 
   $scope.checkQuestions = function() {
 
@@ -1211,37 +1211,40 @@ app.controller('checkoutCtrl',function($scope,$http,$stateParams,$ionicPopup,$io
 	};
 
 	$scope.placeOrder = function(){
-		var test ={};
-		test.items = Cart.getAll();
-		test.customer_id = Customer.getCustomerID();
-		test.outlet_id = $scope.outlet_id;
-		test.brand_id = $scope.brand_id;
-		test.tax_service_charge = $scope.tax_service_charge;
-		test.delivery_fee = Cart.getDeliveryFee();
-		test.deliveryInstruction = $scope.deliveryInstruction.data;
-		test.payment_method = "cash";
-		test.subtotal = Cart.getTotalPrice();
-		test.order_type = Cart.getDeliveryType();
-		test.order_datetime = Cart.getDeliveryTime();
-    test.service_type = Search.getType();
-    if(test.service_type  == 2)
-      test.address_id = Search.getDeliveryAddress();
+    order_id = Math.floor((Math.random() * 100) + 1);
+		$location.path('/confirmation/'+order_id);
 
-    // console.log(test);
-		$http({
-		    url: url + "/placeOrder.php",
-		    method: "POST",
-		    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-		    data: test
-		})
-		.then(function(response) {
-			var order_id = response.data;
-			if(order_id > 0) {
-				$location.path('/confirmation/'+order_id);
-			} else {
+  //   var test ={};
+		// test.items = Cart.getAll();
+		// test.customer_id = Customer.getCustomerID();
+		// test.outlet_id = $scope.outlet_id;
+		// test.brand_id = $scope.brand_id;
+		// test.tax_service_charge = $scope.tax_service_charge;
+		// test.delivery_fee = Cart.getDeliveryFee();
+		// test.deliveryInstruction = $scope.deliveryInstruction.data;
+		// test.payment_method = "cash";
+		// test.subtotal = Cart.getTotalPrice();
+		// test.order_type = Cart.getDeliveryType();
+		// test.order_datetime = Cart.getDeliveryTime();
+  //   test.service_type = Search.getType();
+  //   if(test.service_type  == 2)
+  //     test.address_id = Search.getDeliveryAddress();
 
-			}
-		});
+  //   // console.log(test);
+		// $http({
+		//     url: url + "/placeOrder.php",
+		//     method: "POST",
+		//     headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+		//     data: test
+		// })
+		// .then(function(response) {
+		// 	var order_id = response.data;
+		// 	if(order_id > 0) {
+		// 		$location.path('/confirmation/'+order_id);
+		// 	} else {
+
+		// 	}
+		// });
 
 	};
 });
