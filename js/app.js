@@ -137,12 +137,44 @@ app.run(function($rootScope,$ionicNavBarDelegate,$ionicSideMenuDelegate,$ionicPo
      Search.clearArea();
      Cart.clear();
 	   var logged = Customer.isLogged();
+     var fbjson = {
+        "fatburger": {
+          "brand": "1",
+          "outlet": [
+          {
+            "id": 1,
+            "name": "Plaza Indonesia",
+            "address": "Plaza Indonesia, Lantai Basement",
+            "area": "pzzd@mszjS|m@}b@ta@_\\N{KySgYdFglAuz@as@iTs_Acx@z@m~@jb@o_@bHcXdTsq@vTnGvsA~Rr_AnNt^ph@cZ`x@aDnZ|Ex[{@~R`RdNh]"
+          },
+          {
+            "id": 3,
+            "name": "Pondok Indah Mall",
+            "address": "Pondok Indah Mall 1, Lantai 2",
+            "area": "rzvYu_q|S"
+          },
+          {
+            "id": 2,
+            "name": "Senayan City",
+            "address": "Senayan City, Lower Ground",
+            "area": "x}zd@sczjSp`@rOxT|AhO~P_QdRBfk@|]`Xx[G`Xa]`P}PjSzFbMzDbSzEhCmThHqFi@iGrEiGPkLyKcHLaRk@c`@JoQwCuLCsVeB{UiWnH_FzDkLqR}KbHoJoVki@r]wVpLwXzSqJvIsLxH}N|JaHvJ"
+          },
+          {
+            "id": 4,
+            "name": "Terogong",
+            "address": "Jalan Terogong Raya",
+            "area": "tpee@kaujSdj@r]pXaCr\\nBf[aRfGyCzt@dItNaDfNwBrMqFrL_GjIiG{HsRaHmXgGej@bAw_@{\\u`Aqh@uLok@cDqw@wB_kAbDiTYkAjcA`@r`BjYpo@"
+          }
+        ]
+      }
+  };
+
 		 if(logged == true) {
        Customer.refreshAddress();
 		 }
-     $http.get("http://128.199.235.202/area/fb.json").success(function(data){
-        Search.setArea(data.fatburger);
-     });
+     // $http.get("http://128.199.235.202/area/fb.json").success(function(data){
+        Search.setArea(fbjson.fatburger);
+     // });
   });
 
   $rootScope.reloadData =function(){
