@@ -653,7 +653,6 @@ app.controller('orderCtrl',function($scope,$stateParams,$ionicModal,$http,Cart,$
     $scope.menu                 = {};
     $scope.detail               = [];
 
-
     $scope.size_attribute_id    = {};
     $scope.check                = [];
 
@@ -682,6 +681,7 @@ app.controller('orderCtrl',function($scope,$stateParams,$ionicModal,$http,Cart,$
 				$scope.menu.size_id = $scope.menu.size[0];
         for(var i = 0;i < data.menu.size.length;i++) {
           if(data.menu.size[i].detailed > 0) {
+            // console.log($scope.menu);
             $scope.size_attribute         = data.menu.size[i].size_id;
             $scope.menu.size_attribute_id = data.menu.size[i].size_attr[0];
             $scope.size_attribute_index   = i;
@@ -707,8 +707,9 @@ app.controller('orderCtrl',function($scope,$stateParams,$ionicModal,$http,Cart,$
                 $scope.detail.qtys.push(data.menu.size[i].size_attr[c]);
               }
             }
+
+            $scope.menu.fries = $scope.detail.fries[0];
             $scope.menu.qtys   = $scope.detail.qtys[0];
-            $scope.menu.fries  = $scope.detail.fries[0];
             $scope.menu.drinks = $scope.detail.drinks[0];
           }
         }
@@ -738,6 +739,12 @@ app.controller('orderCtrl',function($scope,$stateParams,$ionicModal,$http,Cart,$
         if(inputs.size_id.detailed == 1)
           delete inputs.size_id['size_attr'];
       }
+      if(inputs.size_id.detailed == 0){
+        delete inputs.fries;
+        delete inputs.drinks;
+        delete inputs.qtys;
+      }
+      console.log(inputs);
   		Cart.addItem(inputs);
   	  $scope.modal.hide();
   	  $scope.items = Cart.getTotalItems();
@@ -937,7 +944,7 @@ app.controller('cartCtrl',function($scope,$http,$stateParams,$ionicModal,$ionicL
       }
   		Cart.updatePrice($scope.tax_service_charge,$scope.delivery_fee);
   		$scope.grandtotal = ($scope.totalPrice*$scope.tax_service_charge/100) + $scope.totalPrice + $scope.delivery_fee;
-  		if($scope.totalPrice > $scope.min_transaction)
+      if($scope.totalPrice > $scope.min_transaction)
   			$scope.min_hit = true;
   });
 
@@ -1211,40 +1218,40 @@ app.controller('checkoutCtrl',function($scope,$http,$stateParams,$ionicPopup,$io
 	};
 
 	$scope.placeOrder = function(){
-    order_id = Math.floor((Math.random() * 100) + 1);
-		$location.path('/confirmation/'+order_id);
+  //   order_id = Math.floor((Math.random() * 100) + 1);
+		// $location.path('/confirmation/'+order_id);
 
-  //   var test ={};
-		// test.items = Cart.getAll();
-		// test.customer_id = Customer.getCustomerID();
-		// test.outlet_id = $scope.outlet_id;
-		// test.brand_id = $scope.brand_id;
-		// test.tax_service_charge = $scope.tax_service_charge;
-		// test.delivery_fee = Cart.getDeliveryFee();
-		// test.deliveryInstruction = $scope.deliveryInstruction.data;
-		// test.payment_method = "cash";
-		// test.subtotal = Cart.getTotalPrice();
-		// test.order_type = Cart.getDeliveryType();
-		// test.order_datetime = Cart.getDeliveryTime();
-  //   test.service_type = Search.getType();
-  //   if(test.service_type  == 2)
-  //     test.address_id = Search.getDeliveryAddress();
+    var test ={};
+		test.items = Cart.getAll();
+		test.customer_id = Customer.getCustomerID();
+		test.outlet_id = $scope.outlet_id;
+		test.brand_id = $scope.brand_id;
+		test.tax_service_charge = $scope.tax_service_charge;
+		test.delivery_fee = Cart.getDeliveryFee();
+		test.deliveryInstruction = $scope.deliveryInstruction.data;
+		test.payment_method = "cash";
+		test.subtotal = Cart.getTotalPrice();
+		test.order_type = Cart.getDeliveryType();
+		test.order_datetime = Cart.getDeliveryTime();
+    test.service_type = Search.getType();
+    if(test.service_type  == 2)
+      test.address_id = Search.getDeliveryAddress();
 
-  //   // console.log(test);
-		// $http({
-		//     url: url + "/placeOrder.php",
-		//     method: "POST",
-		//     headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-		//     data: test
-		// })
-		// .then(function(response) {
-		// 	var order_id = response.data;
-		// 	if(order_id > 0) {
-		// 		$location.path('/confirmation/'+order_id);
-		// 	} else {
+    // console.log(test);
+		$http({
+		    url: url + "/placeOrder.php",
+		    method: "POST",
+		    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+		    data: test
+		})
+		.then(function(response) {
+			var order_id = response.data;
+			if(order_id > 0) {
+				$location.path('/confirmation/'+order_id);
+			} else {
 
-		// 	}
-		// });
+			}
+		});
 
 	};
 });
