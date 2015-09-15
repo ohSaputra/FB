@@ -3,13 +3,12 @@
 <ion-nav-bar class="navbar" align-title="center">
 	<ion-nav-back-button class="button-clear">
 		<i class="ion-arrow-left-b icon-header">
-			<span ng-show="section=='syarat'">Syarat Penggunaan</span>
-			<span ng-show="section=='informasi'">Informasi mengenai kami</span>
-			<span ng-show="section=='gabung'">Bergabung menjadi member kami</span>
-			<span ng-show="section=='pemesanan'">Melakukan pemesanan</span>
-			<span ng-show="section=='pembatalan'">Pembatalan order</span>
-			<span ng-show="section=='userConduct'">User Conduct</span>
-		</i> 		
+			<span ng-show="section=='syarat'">Terms and Conditions</span>
+			<span ng-show="section=='informasi'">Product Information</span>
+			<span ng-show="section=='pemesanan'">Ordering</span>
+			<span ng-show="section=='delivery'">Deliveries</span>
+			<span ng-show="section=='payment'">Payment</span>
+		</i>
     </ion-nav-back-button>
 
 	<ion-nav-buttons side="right">
@@ -25,32 +24,68 @@
 <ion-content style="background-color:#eee;background-image: url(img/left_panel_bg.jpg) !important; background-repeat: repeat-y !important;">
 
 
-<div class="card padding" ng-show="section=='syarat'">    
+<div class="card padding" ng-show="section=='syarat'">
+	<ul class="list">
+	    <li class="item item-text-wrap">
+	      Delivery surcharge of IDR 12,000 will be levied on order. We only accept cash payment .Cash payment shall be made in IDR only .No other methods of payment will be accepted.
+	    </li>
+		<li class="item item-text-wrap">
+			Delivery service is only available in selected areas Jakarta. Please call our outlets for details.
+		</li>
+		<li class="item item-text-wrap">
+			Delivery service may be delayed in the event of bad weather, traffic and/or uncontrollable conditions.
+		</li>
+		<li class="item item-text-wrap">
+			Product information pricing and images are for reference only. Availability of products may vary at individual restaurants. Prices and products listed herein are subject to change by Fatburger Indonesia from time to time without prior notice. Customers should refer to prices and products quoted at the time of order.
+		</li>
+		<li class="item item-text-wrap">
+			Application ordering cannot be made in conjunction with other discounts, special or promotional offers. Fatburger Indonesia Food Coupons and Cash voucher will not be accepted unless otherwise specified.
+		</li>
+		<li class="item item-text-wrap">
+			Delivery service is not available for Ice cream and Hand Scooped Ice cream milk Shake.
+		</li>
+	</ul>
 </div>
 
 <div class="card padding" ng-show="section=='informasi'">
+	<ul class="list">
+	    <li class="item item-text-wrap">
+			Product images are for reference only. Fatburger Indonesia will make every effort to ensure that the product information contained herein are correct. Fatburger Indonesia reserves the right to vary prices and other product information without prior notice. Availability of products may vary at individual restaurants. Customers should refer to prices and products quoted at the time of order.
+		</li>
+	</ul>
 </div>
 
-<div class="card padding" ng-show="section=='gabung'">
+<div class="card padding" ng-show="section=='pemesanan'">
+	<ul class="list">
+	    <li class="item item-text-wrap">
+			You will be liable for every application order made under your username and agree to indemnify Fatburger Indonesia for all claims arising from the actions of a person submitting any order using your username (including the unauthorized use of your email address by a third party).
+		</li>
+		<li class="item item-text-wrap">
+			Fatburger Indonesia reserves the right to decline to accept any order we may, in our opinion, consider unreliable upon checking the user's history for that particular order.
+		</li>
+	</ul>
 </div>
 
-<div class="card padding" ng-show="section=='pemesanan'">    
+<div class="card padding" ng-show="section=='delivery'">
+	<ul class="list">
+	    <li class="item item-text-wrap">
+			You must notify Fatburger Indonesia of a change to your delivery address before placing an order and if you fail to do so we will not be responsible for deliveries to an incorrect or outdated address.
+		</li>
+		<li class="item item-text-wrap">
+			Delivery service may be delayed in the event of bad weather, traffic and/or uncontrollable conditions.
+		</li>
+		<li class="item item-text-wrap">
+			Whilst Fatburger Indonesia will use our best efforts to ensure that your order submitted through the application ordering service is correctly and satisfactorily fulfilled, Fatburger Indonesia reserves the right to decline to fulfill an order in whole or in part if we are unable to supply some or all items of an order because of unavailability or any unforeseen change of the products, or in the event of bad weather, traffic and/or any uncontrollable conditions.
+		</li>
+	</ul>
 </div>
 
-<div class="card padding" ng-show="section=='pembatalan'">
-</div>
-
-<div class="card padding" ng-show="section=='userConduct'">
-	a. Anda setuju untuk menggunakan situs Kami sesuai dengan Terms & Conditions dan tidak melanggar hukum dan regulasi yang berlaku.
-	<br/>
-	b. Anda setuju untuk tidak melakukan reproduksi, duplikasi, menjual, ataupun mengeksploitasi situs Kami untuk segala keperluan komersial, kecuali bila diperbolehkan dalam Terms & Conditions yang berlaku. 
-	<br/>
-	c. Dengan menjadi member Kami, anda setuju informasi anda disimpan dalam database Kami. Data anda termasuk semua order yang anda lakukan melalui situs Kami. 
-	<br/>
-	d. Kami berhak untuk menolak melayani anda, atau membatasi, menghentikan sementara, dan mencabut akun anda kapanpun, dengan atau tanpa alasan. 
-	<br/>
-	e. Kami dapat mengirimkan informasi dan menawarkan produk atau jasa ke anda dari waktu ke waktu. 
-	<br/>
+<div class="card padding" ng-show="section=='payment'">
+	<ul class="list">
+	    <li class="item item-text-wrap">
+			Payment for products ordered through the application ordering service shall be made on delivery by cash in IDR only.
+		</li>
+	</ul>
 </div>
 
 

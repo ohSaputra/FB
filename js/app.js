@@ -558,13 +558,17 @@ app.controller('restoCtrl',function($scope,$http,Search,Customer){
   $scope.$on('state.login', function () {
     	$scope.logged_in = true;
   });
-  // console.log($scope.outlet_id);
   $scope.brand_id = 0;
   var day = new Date();
   var now = day.getDay() - 1;
   var urlLogin = url + "/outletInfo.php?outlet_id="+$scope.outlet_id+"&callback=JSON_CALLBACK";
 	$http.jsonp(urlLogin).success(function(data) {
 		$scope.outletInfo = data.outlet;
+    if($scope.serviceType == 1) {
+      $scope.mintrans = data.outlet.min_transaction_self;
+    } else if ($scope.serviceType == 2) {
+      $scope.mintrans = data.outlet.min_transaction;
+    }
     $scope.hour = data.outlet.hours[now].hours_start.substring(0,5) + " - " +data.outlet.hours[now].hours_end.substring(0,5);
     $scope.brand_id = $scope.outletInfo.brand_id;
 		urlLogin = url + "/outletMenuCategory.php?brand_id="+$scope.outletInfo.brand_id+"&callback=JSON_CALLBACK";
